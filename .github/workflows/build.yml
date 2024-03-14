@@ -1,0 +1,31 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+      - main  # Branche principale où se trouvent vos sources
+  pull_request:
+    branches:
+      - main  # Branche principale où se trouvent vos sources
+
+jobs:
+  build:
+
+    runs-on: macos-latest  # Vous pouvez également utiliser ubuntu-latest ou windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'  # Version de Java requise pour la construction Android
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+      with:
+        sdk-version: '31'  # Version de l'API Android à utiliser
+
+    - name: Build APK
+      run: ./gradlew assembleDebug
